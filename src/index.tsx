@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './infinite.css'
-import AppInf from './AppInf'
+import './index.css'
+// import AppInf from './AppInf'
+// import { getURLFirst } from './lib/words'
+// import { debuglog } from './lib/log'
 import reportWebVitals from './reportWebVitals'
 import { AlertProvider } from './context/AlertContext'
-import { getURLFirst } from './lib/words'
 import App from './App'
 import { Analytics } from '@vercel/analytics/react'
-// import { debuglog } from './lib/log'
 
-const IS_INFINITE = getURLFirst().includes('infinite')
+// const IS_INFINITE = getURLFirst().includes('infinite')
 // if (IS_INFINITE) {
 //   ReactDOM.render(
 //     <React.StrictMode>
