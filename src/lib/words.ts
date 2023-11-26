@@ -1,7 +1,17 @@
+import {
+  addDays,
+  differenceInDays,
+  formatISO,
+  parseISO,
+  startOfDay,
+} from 'date-fns'
+import queryString from 'query-string'
+
 import { getWordsByGame, WORDS } from '../constants/wordlist'
 import { VALID_GUESSES } from '../constants/validGuesses'
 import { VALID_OMEGA } from '../constants/validGuessesOmega'
 
+import { ENABLE_ARCHIVED_GAMES } from '../constants/settings'
 import { WRONG_SPOT_MESSAGE, NOT_CONTAINED_MESSAGE } from '../constants/strings'
 import { getGuessStatuses } from './statuses'
 import {
@@ -10,6 +20,7 @@ import {
 } from './localStorage'
 import { debuglog } from './log'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
+import { getToday } from './dateutils'
 
 // function getUrlVars() {
 //   var parts = window.location.href.split('/');
@@ -63,13 +74,12 @@ export function getUrlOverrides() {
 const OVERRIDES = getUrlOverrides()
 export const DAY_OVERRIDE = OVERRIDES.get('daily')
 
-// February 15, 2022 Game Epoch
-// const epochMs = new Date('December 1, 2022 00:00:00').valueOf()
-// const msInDay = 86400000
-// export const THE_USUAL = Math.floor((Date.now() - epochMs) / msInDay)
+// December 1, 2023 Game Epoch
 const epoch = new Date(2023, 11, 0)
 const start = new Date(epoch)
 const today = new Date()
+export const firstGameDate = new Date(2023, 11)
+export const periodInDays = 1
 today.setHours(0, 0, 0, 0)
 let index = 0
 while (start < today) {
@@ -210,4 +220,108 @@ export const getWord = () => {
   return getWordDaily()
 }
 
-export const { solution, solutionIndex, tomorrow } = getWord()
+// export const { solution, solutionIndex, tomorrow } = getWord()
+
+///////
+
+export const localeAwareLowerCase = (text: string) => {
+  return process.env.REACT_APP_LOCALE_STRING
+    ? text.toLocaleLowerCase(process.env.REACT_APP_LOCALE_STRING)
+    : text.toLowerCase()
+}
+
+export const localeAwareUpperCase = (text: string) => {
+  return process.env.REACT_APP_LOCALE_STRING
+    ? text.toLocaleUpperCase(process.env.REACT_APP_LOCALE_STRING)
+    : text.toUpperCase()
+}
+
+export const getLastGameDate = (today: Date) => {
+  const t = startOfDay(today)
+  let daysSinceLastGame = differenceInDays(firstGameDate, t) % periodInDays
+  return addDays(t, -daysSinceLastGame)
+}
+
+export const getNextGameDate = (today: Date) => {
+  return addDays(getLastGameDate(today), periodInDays)
+}
+
+export const isValidGameDate = (date: Date) => {
+  if (date < firstGameDate || date > getToday()) {
+    return false
+  }
+
+  return differenceInDays(firstGameDate, date) % periodInDays === 0
+}
+
+export const getIndex = (gameDate: Date) => {
+  let start = firstGameDate
+  let index = -1
+  do {
+    index++
+    start = addDays(start, periodInDays)
+  } while (start <= gameDate)
+
+  return index
+}
+
+export const getWordOfDay = (index: number) => {
+  if (index < 0) {
+    throw new Error('Invalid index')
+  }
+
+  return localeAwareUpperCase(WORDS[index % WORDS.length])
+}
+
+export const getSolution = (gameDate: Date) => {
+  const nextGameDate = getNextGameDate(gameDate)
+  const index = getIndex(gameDate)
+  const wordOfTheDay = getWordOfDay(index)
+  return {
+    solution: wordOfTheDay,
+    solutionGameDate: gameDate,
+    solutionIndex: index,
+    tomorrow: nextGameDate.valueOf(),
+  }
+}
+
+export const getGameDate = () => {
+  if (getIsLatestGame()) {
+    return getToday()
+  }
+
+  const parsed = queryString.parse(window.location.search)
+  try {
+    const d = startOfDay(parseISO(parsed.d!.toString()))
+    if (d >= getToday() || d < firstGameDate) {
+      setGameDate(getToday())
+    }
+    return d
+  } catch (e) {
+    console.log(e)
+    return getToday()
+  }
+}
+
+export const setGameDate = (d: Date) => {
+  try {
+    if (d < getToday()) {
+      window.location.href = '/?d=' + formatISO(d, { representation: 'date' })
+      return
+    }
+  } catch (e) {
+    console.log(e)
+  }
+  window.location.href = '/'
+}
+
+export const getIsLatestGame = () => {
+  if (!ENABLE_ARCHIVED_GAMES) {
+    return true
+  }
+  const parsed = queryString.parse(window.location.search)
+  return parsed === null || !('d' in parsed)
+}
+
+export const { solution, solutionGameDate, solutionIndex, tomorrow } =
+  getSolution(getGameDate())

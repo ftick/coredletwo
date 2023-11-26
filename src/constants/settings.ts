@@ -18,6 +18,7 @@ export const DISCOURAGE_INAPP_BROWSERS = true
 export const ENABLE_MIGRATE_STATS = true
 export const BLOWFISH_KEY = 'jIEXqS7f%bYm#JiutG9Eu@2$mnjTpu'
 export const BLOWFISH_IV = 'sSd9EI@o'
+export const ENABLE_ARCHIVED_GAMES = true
 
 // 3, 2 -> 9
 // 4, 1 -> 9
