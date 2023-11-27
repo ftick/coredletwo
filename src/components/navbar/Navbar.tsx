@@ -7,7 +7,7 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/outline'
 import { GAME_TITLE } from '../../constants/strings'
-import { getURLBase } from '../../lib/words'
+// import { getURLBase } from '../../lib/words'
 
 type Props = {
   isInfinite: boolean
@@ -16,6 +16,7 @@ type Props = {
   isDarkMode: boolean
   setIsInfoModalOpen: (value: boolean) => void
   setIsStatsModalOpen: (value: boolean) => void
+  setIsDatePickerModalOpen: (value: boolean) => void
   setIsSettingsModalOpen: (value: boolean) => void
 }
 
@@ -26,82 +27,50 @@ export const Navbar = ({
   isDarkMode,
   setIsInfoModalOpen,
   setIsStatsModalOpen,
+  setIsDatePickerModalOpen,
   setIsSettingsModalOpen,
 }: Props) => {
-  if (isInfinite) {
-    return (
-      <div className="navbar">
-        <div className="navbar-content px-5 short:h-auto">
-          <div className="flex">
-            <InformationCircleIcon
-              className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
-              onClick={() => setIsInfoModalOpen(true)}
-            />
-          </div>
-          <div className="flex">
-            <h1 className="text-xl ml-2.5 grow font-bold dark:text-white">
-              {GAME_TITLE} ∞ {isHardMode ? '😺🎀' : ''}
-            </h1>
-          </div>
-          <div className="right-icons">
-            <CalendarIcon
-              className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
-              onClick={() => {
-                window.open(getURLBase(), '_self')
-              }}
-            />
-            <ChartBarIcon
-              className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
-              onClick={() => setIsStatsModalOpen(true)}
-            />
-            <CogIcon
-              className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
-              onClick={() => setIsSettingsModalOpen(true)}
-            />
-          </div>
-        </div>
-        <hr></hr>
-      </div>
-    )
-  }
-  if (typeof dayDisplay == typeof 20 && dayDisplay > 319) {
-    return (
-      <div className="navbar">
-        <div className="navbar-content px-5 short:h-auto">
-          <div className="flex">
-            <InformationCircleIcon
-              className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
-              onClick={() => setIsInfoModalOpen(true)}
-            />
-          </div>
-          <div className="flex">
-            <h1 className="text-xl ml-2.5 grow font-bold dark:text-white">
-              {GAME_TITLE} END
-            </h1>
-          </div>
-          <div className="right-icons">
-            {/* <FontAwesomeIcon
-              className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
-              icon={faInfinity}
-              inverse={isDarkMode}
-              onClick={() => {
-                window.open(getURLBase() + '/infinite', '_self')
-              }}
-            /> */}
-            <ChartBarIcon
-              className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
-              onClick={() => setIsStatsModalOpen(true)}
-            />
-            <CogIcon
-              className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
-              onClick={() => setIsSettingsModalOpen(true)}
-            />
-          </div>
-        </div>
-        <hr></hr>
-      </div>
-    )
-  }
+  // if (isInfinite) {
+  //   return (
+  //     <div className="navbar">
+  //       <div className="navbar-content px-5 short:h-auto">
+  //         <div className="flex">
+  //           <InformationCircleIcon
+  //             className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
+  //             onClick={() => setIsInfoModalOpen(true)}
+  //           />
+  //           <CalendarIcon
+  //             className="ml-3 h-6 w-6 cursor-pointer dark:stroke-white"
+  //             onClick={() => setIsDatePickerModalOpen(true)}
+  //           />
+  //         </div>
+  //         <p className="text-xl font-bold dark:text-white">{GAME_TITLE}</p>
+  //         <div className="flex">
+  //           <h1 className="text-xl ml-2.5 grow font-bold dark:text-white">
+  //             {GAME_TITLE} ∞ {isHardMode ? '😺🎀' : ''}
+  //           </h1>
+  //         </div>
+  //         <div className="right-icons">
+  //           <CalendarIcon
+  //             className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
+  //             onClick={() => {
+  //               window.open(getURLBase(), '_self')
+  //             }}
+  //           />
+  //           <ChartBarIcon
+  //             className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
+  //             onClick={() => setIsStatsModalOpen(true)}
+  //           />
+  //           <CogIcon
+  //             className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
+  //             onClick={() => setIsSettingsModalOpen(true)}
+  //           />
+  //         </div>
+  //       </div>
+  //       <hr></hr>
+  //     </div>
+  //   )
+  // }
   return (
     <div className="navbar">
       <div className="navbar-content px-5 short:h-auto">
@@ -109,6 +78,10 @@ export const Navbar = ({
           <InformationCircleIcon
             className="h-6 w-6 mr-2 cursor-pointer dark:stroke-white"
             onClick={() => setIsInfoModalOpen(true)}
+          />
+          <CalendarIcon
+            className="ml-3 h-6 w-6 cursor-pointer dark:stroke-white"
+            onClick={() => setIsDatePickerModalOpen(true)}
           />
         </div>
         <div className="flex">

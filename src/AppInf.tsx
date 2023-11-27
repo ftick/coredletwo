@@ -316,6 +316,7 @@ function AppInf() {
         setIsInfoModalOpen={() => setIsInfoModalOpen(true)}
         setIsSettingsModalOpen={() => setIsSettingsModalOpen(true)}
         setIsStatsModalOpen={() => setIsStatsModalOpen(true)}
+        setIsDatePickerModalOpen={() => {}}
       />
       <Grid
         solution={solution}

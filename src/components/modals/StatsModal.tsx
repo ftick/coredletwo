@@ -72,6 +72,7 @@ export const StatsModal = ({
         {GUESS_DISTRIBUTION_TEXT}
       </h4>
       <Histogram
+        isLatestGame={true}
         gameStats={gameStats}
         isGameWon={isGameWon}
         numberOfGuessesMade={numberOfGuessesMade}

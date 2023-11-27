@@ -11,13 +11,13 @@ import { getWordsByGame, WORDS } from '../constants/wordlist'
 import { VALID_GUESSES } from '../constants/validGuesses'
 import { VALID_OMEGA } from '../constants/validGuessesOmega'
 
-import { ENABLE_ARCHIVED_GAMES } from '../constants/settings'
 import { WRONG_SPOT_MESSAGE, NOT_CONTAINED_MESSAGE } from '../constants/strings'
+// import { ENABLE_ARCHIVED_GAMES } from '../constants/settings'
 import { getGuessStatuses } from './statuses'
-import {
-  loadUnlimitedStatsFromLocalStorage,
-  saveUnlimitedStatsToLocalStorage,
-} from './localStorage'
+// import {
+//   loadUnlimitedStatsFromLocalStorage,
+//   saveUnlimitedStatsToLocalStorage,
+// } from './localStorage'
 import { debuglog } from './log'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 import { getToday } from './dateutils'
@@ -143,82 +143,82 @@ export const unicodeSplit = (word: string) => {
   return new GraphemeSplitter().splitGraphemes(word)
 }
 
-export const getDayIndex = () => {
-  if (DAY_OVERRIDE || DAY_OVERRIDE === 0) {
-    if (DAY_OVERRIDE < 0 || DAY_OVERRIDE >= THE_USUAL) return THE_USUAL
-    return DAY_OVERRIDE
-  }
-  return THE_USUAL
-}
+// export const getDayIndex = () => {
+//   if (DAY_OVERRIDE || DAY_OVERRIDE === 0) {
+//     if (DAY_OVERRIDE < 0 || DAY_OVERRIDE >= THE_USUAL) return THE_USUAL
+//     return DAY_OVERRIDE
+//   }
+//   return THE_USUAL
+// }
 
-export const getWordDaily = () => {
-  var index = getDayIndex()
-  // const nextday = (THE_USUAL + 1) * msInDay + epochMs
-  const nextDay = new Date(today)
-  nextDay.setDate(today.getDate() + 1)
+// export const getWordDaily = () => {
+//   var index = getDayIndex()
+//   // const nextday = (THE_USUAL + 1) * msInDay + epochMs
+//   const nextDay = new Date(today)
+//   nextDay.setDate(today.getDate() + 1)
 
-  debuglog('daily #', index)
+//   debuglog('daily #', index)
 
-  var solutionToBe = WORDS[index % WORDS.length].toUpperCase()
+//   var solutionToBe = WORDS[index % WORDS.length].toUpperCase()
 
-  debuglog(solutionToBe)
+//   debuglog(solutionToBe)
 
-  return {
-    solution: solutionToBe,
-    solutionIndex: index,
-    // tomorrow: nextday,
-    tomorrow: nextDay.valueOf(),
-  }
-}
+//   return {
+//     solution: solutionToBe,
+//     solutionIndex: index,
+//     // tomorrow: nextday,
+//     tomorrow: nextDay.valueOf(),
+//   }
+// }
 
-export const getWordUnlimited = () => {
-  const WORDS_BYGAME = getWordsByGame()
-  var index = Math.floor(Math.random() * WORDS_BYGAME.length)
-  // const nextday = (THE_USUAL + 1) * msInDay + epochMs
-  const nextDay = new Date(today)
-  nextDay.setDate(today.getDate() + 1)
+// export const getWordUnlimited = () => {
+//   const WORDS_BYGAME = getWordsByGame()
+//   var index = Math.floor(Math.random() * WORDS_BYGAME.length)
+//   // const nextday = (THE_USUAL + 1) * msInDay + epochMs
+//   const nextDay = new Date(today)
+//   nextDay.setDate(today.getDate() + 1)
 
-  debuglog('unlimited mode')
+//   debuglog('unlimited mode')
 
-  var solutionToBe = WORDS_BYGAME[index % WORDS_BYGAME.length].toUpperCase()
+//   var solutionToBe = WORDS_BYGAME[index % WORDS_BYGAME.length].toUpperCase()
 
-  var loaded = loadUnlimitedStatsFromLocalStorage()
-  var loaded_array = loaded?.pastSolutions
+//   var loaded = loadUnlimitedStatsFromLocalStorage()
+//   var loaded_array = loaded?.pastSolutions
 
-  if (loaded && loaded_array && loaded_array.length === WORDS_BYGAME.length) {
-    saveUnlimitedStatsToLocalStorage({
-      winDistribution: loaded?.winDistribution,
-      gamesFailed: loaded?.gamesFailed,
-      currentStreak: loaded?.currentStreak,
-      bestStreak: loaded?.bestStreak,
-      totalGames: loaded?.totalGames,
-      successRate: loaded?.successRate,
-      pastSolutions: [],
-    })
-  }
+//   if (loaded && loaded_array && loaded_array.length === WORDS_BYGAME.length) {
+//     saveUnlimitedStatsToLocalStorage({
+//       winDistribution: loaded?.winDistribution,
+//       gamesFailed: loaded?.gamesFailed,
+//       currentStreak: loaded?.currentStreak,
+//       bestStreak: loaded?.bestStreak,
+//       totalGames: loaded?.totalGames,
+//       successRate: loaded?.successRate,
+//       pastSolutions: [],
+//     })
+//   }
 
-  while (
-    loadUnlimitedStatsFromLocalStorage()?.pastSolutions.includes(solutionToBe)
-  ) {
-    index = Math.floor(Math.random() * WORDS_BYGAME.length)
-    solutionToBe = WORDS_BYGAME[index % WORDS_BYGAME.length].toUpperCase()
-  }
+//   while (
+//     loadUnlimitedStatsFromLocalStorage()?.pastSolutions.includes(solutionToBe)
+//   ) {
+//     index = Math.floor(Math.random() * WORDS_BYGAME.length)
+//     solutionToBe = WORDS_BYGAME[index % WORDS_BYGAME.length].toUpperCase()
+//   }
 
-  debuglog('soln:', solutionToBe)
+//   debuglog('soln:', solutionToBe)
 
-  return {
-    solution: solutionToBe,
-    solutionIndex: index,
-    // tomorrow: nextday,
-    tomorrow: nextDay.valueOf(),
-  }
-}
+//   return {
+//     solution: solutionToBe,
+//     solutionIndex: index,
+//     // tomorrow: nextday,
+//     tomorrow: nextDay.valueOf(),
+//   }
+// }
 
-export const getWord = () => {
-  if (DAY_OVERRIDE === undefined) return getWordDaily()
-  if (getURLFirst() === 'infinite') return getWordUnlimited()
-  return getWordDaily()
-}
+// export const getWord = () => {
+//   if (DAY_OVERRIDE === undefined) return getWordDaily()
+//   if (getURLFirst() === 'infinite') return getWordUnlimited()
+//   return getWordDaily()
+// }
 
 // export const { solution, solutionIndex, tomorrow } = getWord()
 
@@ -316,9 +316,8 @@ export const setGameDate = (d: Date) => {
 }
 
 export const getIsLatestGame = () => {
-  if (!ENABLE_ARCHIVED_GAMES) {
-    return true
-  }
+  // return true
+
   const parsed = queryString.parse(window.location.search)
   return parsed === null || !('d' in parsed)
 }

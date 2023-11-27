@@ -1,3 +1,4 @@
+import { enUS } from 'date-fns/locale'
 import { solution } from '../lib/words'
 
 export const maxChallenges = function (isHard: boolean) {
@@ -19,11 +20,4 @@ export const ENABLE_MIGRATE_STATS = true
 export const BLOWFISH_KEY = 'jIEXqS7f%bYm#JiutG9Eu@2$mnjTpu'
 export const BLOWFISH_IV = 'sSd9EI@o'
 export const ENABLE_ARCHIVED_GAMES = true
-
-// 3, 2 -> 9
-// 4, 1 -> 9
-// 5, 0 -> 8
-// 6, 0 -> 8
-// 7, 0 -> 8
-// 8, 0 -> 8
-// 9, 1 -> 9
+export const DATE_LOCALE = enUS

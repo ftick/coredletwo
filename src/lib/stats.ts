@@ -7,7 +7,7 @@ import {
   saveUnlimitedStatsToLocalStorage,
   UnlimitedStats,
 } from './localStorage'
-import { getDayIndex, THE_USUAL } from './words'
+import { getIndex, getGameDate, THE_USUAL } from './words'
 
 // In stats array elements 0-5 are successes in 1-6 trys
 
@@ -19,7 +19,7 @@ export const addStatsForCompletedGame = (
   // Count is number of incorrect guesses before end.
   const stats = { ...gameStats }
 
-  const day_index = getDayIndex()
+  const day_index = getIndex(getGameDate())
 
   // if (day_index === THE_USUAL) {
   if (

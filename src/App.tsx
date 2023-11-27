@@ -1,6 +1,8 @@
+import { format } from 'date-fns'
 import { useState, useEffect } from 'react'
 import { Grid } from './components/grid/Grid'
 import { Keyboard } from './components/keyboard/Keyboard'
+import { DatePickerModal } from './components/modals/DatePickerModal'
 import { InfoModal } from './components/modals/InfoModal'
 import { StatsModal } from './components/modals/StatsModal'
 import { SettingsModal } from './components/modals/SettingsModal'
@@ -14,6 +16,7 @@ import {
   DISCOURAGE_INAPP_BROWSER_TEXT,
 } from './constants/strings'
 import {
+  DATE_LOCALE,
   maxChallenges,
   MAX_WORD_LENGTH,
   ALERT_TIME_MS,
@@ -27,7 +30,11 @@ import {
   isWinningWord,
   solution,
   // findFirstUnusedReveal,
-  getDayIndex,
+  getIndex,
+  getGameDate,
+  getIsLatestGame,
+  solutionGameDate,
+  setGameDate,
   // THE_USUAL,
   // getURLBase,
   // LENGTH_OVERRIDE,
@@ -47,10 +54,15 @@ import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
 import { MigrateStatsModal } from './components/modals/MigrateStatsModal'
 import { Navbar } from './components/navbar/Navbar'
+import { debuglog } from './lib/log'
+import { ClockIcon } from '@heroicons/react/outline'
 
 function App() {
-  const DAY_INDEX = getDayIndex()
-  // debuglog(DAY_INDEX, LENGTH_OVERRIDE)
+  const isLatestGame = getIsLatestGame()
+  const gameDate = getGameDate()
+
+  const DAY_INDEX = getIndex(getGameDate())
+  debuglog(DAY_INDEX)
 
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
@@ -62,6 +74,7 @@ function App() {
   const [isGameWon, setIsGameWon] = useState(false)
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
+  const [isDatePickerModalOpen, setIsDatePickerModalOpen] = useState(false)
   const [isMigrateStatsModalOpen, setIsMigrateStatsModalOpen] = useState(false)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
   const [currentRowClass, setCurrentRowClass] = useState('')
@@ -83,7 +96,7 @@ function App() {
       : false
   )
   const [guesses, setGuesses] = useState<string[]>(() => {
-    const loaded = loadGameStateFromLocalStorage()
+    const loaded = loadGameStateFromLocalStorage(isLatestGame)
     if (loaded?.solution !== solution) {
       return []
     }
@@ -122,7 +135,7 @@ function App() {
   useEffect(() => {
     // if no game state on load,
     // show the user the how-to info modal
-    if (!loadGameStateFromLocalStorage()) {
+    if (!loadGameStateFromLocalStorage(true)) {
       setTimeout(() => {
         setIsInfoModalOpen(true)
       }, WELCOME_INFO_MODAL_MS)
@@ -172,7 +185,7 @@ function App() {
   }
 
   useEffect(() => {
-    saveGameStateToLocalStorage({ guesses, solution })
+    saveGameStateToLocalStorage(getIsLatestGame(), { guesses, solution })
   }, [guesses])
 
   useEffect(() => {
@@ -259,14 +272,18 @@ function App() {
       setCurrentGuess('')
 
       if (winningWord) {
-        setStats(addStatsForCompletedGame(stats, guesses.length, isHardMode))
+        if (isLatestGame) {
+          setStats(addStatsForCompletedGame(stats, guesses.length, isHardMode))
+        }
         return setIsGameWon(true)
       }
 
       if (guesses.length === maxChallenges(isHardMode) - 1) {
-        setStats(
-          addStatsForCompletedGame(stats, guesses.length + 1, isHardMode)
-        )
+        if (isLatestGame) {
+          setStats(
+            addStatsForCompletedGame(stats, guesses.length + 1, isHardMode)
+          )
+        }
         setIsGameLost(true)
         showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
           persist: true,
@@ -542,7 +559,7 @@ function App() {
   // } else {
   // if (DAY_INDEX === THE_USUAL && DAY_INDEX == 0) {
 
-  console.log(DAY_INDEX)
+  // console.log(DAY_INDEX)
   return (
     <div className="flex h-full flex-col">
       <Navbar
@@ -553,7 +570,16 @@ function App() {
         setIsInfoModalOpen={() => setIsInfoModalOpen(true)}
         setIsSettingsModalOpen={() => setIsSettingsModalOpen(true)}
         setIsStatsModalOpen={() => setIsStatsModalOpen(true)}
+        setIsDatePickerModalOpen={setIsDatePickerModalOpen}
       />
+      {!isLatestGame && (
+        <div className="flex items-center justify-center">
+          <ClockIcon className="h-6 w-6 stroke-gray-600 dark:stroke-gray-300" />
+          <p className="text-base text-gray-600 dark:text-gray-300">
+            {format(gameDate, 'd MMMM yyyy', { locale: DATE_LOCALE })}
+          </p>
+        </div>
+      )}
       <Grid
         solution={solution}
         guesses={guesses}
@@ -591,6 +617,15 @@ function App() {
         isDarkMode={isDarkMode}
         isHighContrastMode={isHighContrastMode}
         numberOfGuessesMade={guesses.length}
+      />
+      <DatePickerModal
+        isOpen={isDatePickerModalOpen}
+        initialDate={solutionGameDate}
+        handleSelectDate={(d: Date) => {
+          setIsDatePickerModalOpen(false)
+          setGameDate(d)
+        }}
+        handleClose={() => setIsDatePickerModalOpen(false)}
       />
       <MigrateStatsModal
         isOpen={isMigrateStatsModalOpen}

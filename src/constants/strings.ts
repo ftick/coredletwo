@@ -60,3 +60,7 @@ export const HOW_TO5B_TEXT =
 export const HOW_TO6_TEXT = 'contact me'
 export const HOW_TO7_TEXT = 'source code'
 export const HOW_TO8_TEXT = 'forked from Reactle'
+export const DATEPICKER_TITLE = 'Choose a past date'
+export const DATEPICKER_CHOOSE_TEXT = 'Choose'
+export const DATEPICKER_TODAY_TEXT = 'today'
+export const ARCHIVE_GAMEDATE_TEXT = 'Game date'
