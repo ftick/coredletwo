@@ -4,6 +4,8 @@ import { WORDS_TOURNEY } from './bycategory/words_tourney'
 import { WORDS_EU } from './bycategory/words_eu'
 import { WORDS_OCE } from './bycategory/words_oce'
 import { WORDS_ASIA } from './bycategory/words_asia'
+import { VALID_ENTRANTS } from './valid/valid_entrants'
+import { VALID_DISCORD } from './valid/valid_discord'
 
 var arr = [
   'builtdiff',
@@ -248,5 +250,7 @@ arr.push(...WORDS_TOURNEY)
 arr.push(...WORDS_EU)
 arr.push(...WORDS_OCE)
 arr.push(...WORDS_ASIA)
+arr.push(...VALID_DISCORD)
+arr.push(...VALID_ENTRANTS)
 
 export const VALID_OMEGA = arr
