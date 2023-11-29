@@ -166,6 +166,7 @@ export const WORDS_TOURNEY = [
   'vixx3y',
   'zidium',
   'vamp',
+  'jdog',
 
   // kgap
   'numbat',
@@ -227,6 +228,9 @@ export const WORDS_TOURNEY = [
   'katsuna',
   'logan',
   'reburst',
+  'bertrum',
+  'zonseki',
+  'spencer',
 
   'utdallas',
   'lakeland',

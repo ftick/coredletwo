@@ -17,6 +17,7 @@ export const WORDS_BASE = [
   'vyce',
   'octavia',
   'kazan',
+  'mako',
 
   'app',
   'dais',
@@ -25,6 +26,7 @@ export const WORDS_BASE = [
   'onis',
   'ahten',
   'clarion',
+  'taiko',
   'flipped',
   'pocket',
   'about',

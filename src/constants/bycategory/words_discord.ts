@@ -94,6 +94,8 @@ export const WORDS_DISCORD = [
   'smurfs',
   'fear',
   'korea',
+  'shock',
+  'nork',
 
   'aimipat', // emotes
   'juliglow',
@@ -103,4 +105,6 @@ export const WORDS_DISCORD = [
   'lunanice',
 
   // launch
+  'threadge',
+  'aimitank',
 ]

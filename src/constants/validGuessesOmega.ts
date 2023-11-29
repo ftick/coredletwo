@@ -225,6 +225,22 @@ var arr = [
   'xko',
   'arcbeam',
   'arcbeams',
+
+  // launch
+  
+  'fool',
+  'raah',
+  'reqm',
+  'plnk',
+  'dawg',
+  'chow',
+  'beat',
+  
+  'marissa',
+  'bosuhr',
+  'phreid',
+  'killmonk',
+  'toasty',
 ]
 arr.push(...WORDS_BASE)
 arr.push(...WORDS_DISCORD)
