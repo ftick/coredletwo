@@ -7,6 +7,8 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/outline'
 import { GAME_TITLE } from '../../constants/strings'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelopeOpen } from '@fortawesome/free-regular-svg-icons'
 // import { getURLBase } from '../../lib/words'
 
 type Props = {
@@ -99,6 +101,13 @@ export const Navbar = ({
               window.open(getURLBase() + '/infinite', '_self')
             }}
           /> */}
+          <FontAwesomeIcon
+            icon={faEnvelopeOpen}
+            className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
+            onClick={() => {
+              window.open('https://forms.gle/TWNPkzyToyigTzi1A', '')
+            }}
+          />
           <ChartBarIcon
             className="h-6 w-6 mr-3 cursor-pointer dark:stroke-white"
             onClick={() => setIsStatsModalOpen(true)}
