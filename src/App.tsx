@@ -62,7 +62,7 @@ function App() {
   const gameDate = getGameDate()
 
   const DAY_INDEX = getIndex(getGameDate())
-  debuglog(DAY_INDEX)
+  debuglog('day:', DAY_INDEX)
 
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
@@ -606,6 +606,7 @@ function App() {
         solution={solution}
         guesses={guesses}
         gameStats={stats}
+        isLatestGame={isLatestGame}
         isGameLost={isGameLost}
         isGameWon={isGameWon}
         handleShareToClipboard={() => showSuccessAlert(GAME_COPIED_MESSAGE)}
