@@ -13,4 +13,11 @@ export var WORDS_DAILY = [
   'hbcat13',
   'mikemart',
   'goomy',
+  'flipside',
+  'matyous',
+  'yami',
+  'nxzd',
+  'garfield',
+  'chikara',
+  'achiachi',
 ]
