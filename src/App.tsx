@@ -61,7 +61,7 @@ function App() {
   const isLatestGame = getIsLatestGame()
   const gameDate = getGameDate()
 
-  const DAY_INDEX = getIndex(getGameDate())
+  const DAY_INDEX = getIndex(getGameDate())+1
   debuglog('day:', DAY_INDEX)
 
   const prefersDarkMode = window.matchMedia(
@@ -281,7 +281,7 @@ function App() {
     }
   }
 
-  const DAY_DISPLAY = DAY_INDEX === 10 ? 'Ω' : DAY_INDEX
+  const DAY_DISPLAY = DAY_INDEX === 9 ? 'Ω' : DAY_INDEX+1
 
   // console.log(DAY_INDEX)
   return (
