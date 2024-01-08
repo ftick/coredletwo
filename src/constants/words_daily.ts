@@ -39,4 +39,8 @@ export var WORDS_DAILY = [
   'chills',
   'striker',
   'appabug',
+  'lockoff',
+  'aesop',
+  'virtuoso',
+  'teuse',
 ]
