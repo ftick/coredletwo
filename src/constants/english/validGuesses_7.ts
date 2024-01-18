@@ -19069,6 +19069,7 @@ export const VALID_GUESSES_7 = [
   'occiput',
   'occlude',
   'occults',
+  'oceania',
   'oceanic',
   'oceanid',
   'ocellar',
